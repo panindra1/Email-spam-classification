@@ -58,7 +58,7 @@ total_counter = 0
 k = 1
 v = 8
 
-def computeProbabilities():
+def compute_probabilities():
      for word in space_dict:
         val = space_dict.get(word)
         p_space_dict.update({word: (math.log( ((val + k) * 1.0)/(total_space_counter + (k * v)) )) })
@@ -99,6 +99,22 @@ def computeProbabilities():
      p_forsale = math.log((total_forsale_counter *1.0)/ total_counter)
      p_hockey = math.log((total_hockey_counter *1.0)/ total_counter)
      p_graphics = math.log((total_graphics_counter *1.0)/ total_counter)
+
+def compute_odds_ratio(class1, class2):
+    odds_ratio_dict = {}
+    for word,val in class1.items():
+        if(word in class2):
+            not_spam_val = class2.get(word)
+            odds_ratio_dict[word] = val * 1.0/not_spam_val
+
+    sorted_odds_ratio = sorted(odds_ratio_dict.items(), key=operator.itemgetter(1), reverse=True)
+    print("**************************************************")
+    i = 0
+    for key in sorted_odds_ratio:
+        print(key[0] +" : " +str(key[1]))
+        i += 1
+        if(i == 20):
+            break
 
 def calc_accuracy():
     correct_class = 0
@@ -179,7 +195,7 @@ def give_class_val(class_values):
 
 
 def main():
-    computeProbabilities()
+    compute_probabilities()
     calc_accuracy()
 
     sorted_space_dict = sorted(p_space_dict.items(), key=operator.itemgetter(1), reverse=True)
@@ -353,3 +369,7 @@ if __name__ == "__main__":
                     graphics_dict.update({current_word: frequency})
 
     main()
+    compute_odds_ratio(p_space_dict, p_hardware_dict)
+    compute_odds_ratio(p_graphics_dict, p_baseball_dict)
+    compute_odds_ratio(p_hockey_dict, p_baseball_dict)
+    compute_odds_ratio(p_forsale_dict, p_politics_dict)
