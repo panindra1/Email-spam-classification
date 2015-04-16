@@ -2,7 +2,7 @@ __author__ = 'panindra'
 import math
 import operator
 
-HomeDirectory = "/home/panindra/PycharmProjects/NaiveBayes/"
+HomeDirectory = "/home/tvsamartha/Pycharm_Projects/Email-spam-classification/"
 training_data = []
 test_data = []
 class_dict = {}
@@ -101,8 +101,10 @@ def computeProbabilities():
      p_graphics = math.log((total_graphics_counter *1.0)/ total_counter)
 
 def calc_accuracy():
+
     correct_class = 0
     total_rows = 0
+    confusion_matrix = [[0 for x in range(8)] for x in range(8)]
 
     with open(HomeDirectory+ "8category.testing.txt")as f:
         test_data = f.readlines()
@@ -159,11 +161,20 @@ def calc_accuracy():
           val_graphics += p_graphics
 
           high_class_values = [val_space, val_hardware, val_baseball, val_windows, val_politics, val_forsale, val_hockey, val_graphics]
-          if(class_val == give_class_val(high_class_values)):
+          predicted_class = give_class_val(high_class_values)
+          if(class_val == predicted_class):
               correct_class += 1
+          confusion_matrix[class_val][predicted_class]+=1
 
-        print(correct_class)
-        print((correct_class * 1.0)/ total_rows)
+        print("Confusion matrix ")
+
+        for rows in xrange(0, len(confusion_matrix)):
+            print(confusion_matrix[rows])
+
+
+        #print(correct_class)
+
+        print("\nAccuracy = " + str((correct_class * 1.0)/ total_rows))
 
 def give_class_val(class_values):
     index = 0
