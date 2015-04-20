@@ -2,7 +2,7 @@ __author__ = 'panindra'
 import math
 import operator
 
-HomeDirectory = "/home/panindra/PycharmProjects/NaiveBayes/"
+HomeDirectory = "/home/tvsamartha/Pycharm_Projects/Email-spam-classification/"
 training_data = []
 test_data = []
 class_dict = {}
@@ -119,9 +119,14 @@ def compute_odds_ratio(class1, class2):
             break
 
 def calc_accuracy():
+
     correct_class = 0
     total_rows = 0
+<<<<<<< HEAD
     Matrix = [[0 for x in range(8)] for x in range(8)]
+=======
+    confusion_matrix = [[0 for x in range(8)] for x in range(8)]
+>>>>>>> 66ffa3a11ba2904f20d02b9d57658e124bf05d41
 
     with open(HomeDirectory+ "8category.testing.txt")as f:
         test_data = f.readlines()
@@ -179,16 +184,34 @@ def calc_accuracy():
           val_graphics += p_graphics
 
           high_class_values = [val_space, val_hardware, val_baseball, val_windows, val_politics, val_forsale, val_hockey, val_graphics]
+<<<<<<< HEAD
           classifed_class = give_class_val(high_class_values)
           if(class_val == classifed_class):
+=======
+          predicted_class = give_class_val(high_class_values)
+          if(class_val == predicted_class):
+>>>>>>> 66ffa3a11ba2904f20d02b9d57658e124bf05d41
               correct_class += 1
+          confusion_matrix[class_val][predicted_class]+=1
 
+        print("Confusion matrix ")
+
+        for rows in xrange(0, len(confusion_matrix)):
+            print(confusion_matrix[rows])
+
+
+        #print(correct_class)
+
+<<<<<<< HEAD
           Matrix[class_val][classifed_class] += 1
 
         print(correct_class)
         print((correct_class * 1.0)/ total_rows)
         for line in Matrix:
             print(line)
+=======
+        print("\nAccuracy = " + str((correct_class * 1.0)/ total_rows))
+>>>>>>> 66ffa3a11ba2904f20d02b9d57658e124bf05d41
 
 def give_class_val(class_values):
     index = 0
