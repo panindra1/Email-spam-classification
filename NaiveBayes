@@ -16,9 +16,10 @@ p_not_spam_dict = {}
 p_spam = 0.0
 p_not_spam = 0.0
 k = 80
-v = 2
+v = 1
 
 def computeProbabilities():
+    global v
     for word in spam_dict:
         val = spam_dict.get(word)
 
@@ -28,8 +29,9 @@ def computeProbabilities():
         val = not_spam_dict.get(word)
         p_not_spam_dict.update({word: (math.log( ((val + k) * 1.0)/(total_not_spam + k * v))) })
 
-    p_spam = math.log(((total_spam *1.0)/ (total_spam + total_not_spam)))
-    p_not_spam = math.log(((total_not_spam *1.0) / (total_spam + total_not_spam)))
+    global p_spam, p_not_spam
+    p_spam = math.log(((spam_counter *1.0)/ (total_spam + total_not_spam)))
+    p_not_spam = math.log(((not_spam_counter *1.0) / (total_spam + total_not_spam)))
 
 
 def calc_accuracy():
@@ -53,6 +55,7 @@ def calc_accuracy():
           for word in words:
               split_word = word.split(":")
               keyword = split_word[0]
+              frequency = int(split_word[1]) * 1.0
               if(p_spam_dict.has_key(keyword)):
                   val_spam += p_spam_dict.get(keyword)
 
@@ -77,18 +80,17 @@ def calc_accuracy():
 
 
     print(correct_class)
-    print((correct_class * 1.0)/ total_rows)
+    print(( (correct_class * 1.0)/ total_rows) *100)
 
     print("Confusion Matrix")
     print(str(spam_spam_ctr*1.0/total_rows) + " " + str(spam_notspam_ctr*1.0/total_rows))
     print(str(notspam_spam_ctr*1.0/total_rows) + " " + str(notspam_notspam_ctr*1.0/total_rows))
 
 
-
-
 def main():
     computeProbabilities()
     calc_accuracy()
+
     sorted_spam = sorted(p_spam_dict.items(), key=operator.itemgetter(1), reverse=True)
     sorted_not_spam = sorted(p_not_spam_dict.items(), key=operator.itemgetter(1), reverse=True)
 
@@ -107,6 +109,7 @@ def main():
         i += 1
         if(i == 20):
             break
+
 
 def getLogOddsRatio():
     odds_ratio_dict = {}
@@ -130,6 +133,11 @@ if __name__ == "__main__":
 
       for line in training_data:
           class_val = int(line[0])
+          if(class_val == 1):
+            spam_counter += 1
+          else:
+            not_spam_counter += 1
+
           words = line[2:].split(" ")
           for word in words:
               split_word = word.split(":")
@@ -137,7 +145,6 @@ if __name__ == "__main__":
               frequency = int(split_word[1])
 
               if(class_val == 1):
-                spam_counter += 1
                 total_spam += frequency
                 if spam_dict.has_key(current_word):
                     val = spam_dict.get(current_word)
@@ -146,7 +153,6 @@ if __name__ == "__main__":
                 else:
                     spam_dict.update({current_word: frequency})
               else:
-                  not_spam_counter += 1
                   total_not_spam += frequency
                   if not_spam_dict.has_key(current_word):
                     val = not_spam_dict.get(current_word)
@@ -154,6 +160,12 @@ if __name__ == "__main__":
                     not_spam_dict.update({current_word: val})
                   else:
                     not_spam_dict.update({current_word: frequency})
+
+    spam_keys = set(spam_dict.keys())
+    not_spam_keys = set(not_spam_dict.keys())
+
+    s = set.intersection(spam_keys, not_spam_keys)
+    v = len(spam_keys) + len(not_spam_keys) - len(s)
 
     main()
     getLogOddsRatio()
