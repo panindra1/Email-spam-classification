@@ -15,9 +15,9 @@ for line in input_data:
 YOUR_TEXT = "A tag cloud is a visual representation for text data, typically\
 used to depict keyword metadata on websites, or to visualize free form text."
 
-tags = make_tags(get_tag_counts(final_str), maxsize=120)
+tags = make_tags(get_tag_counts(final_str), maxsize=100)
 
-create_tag_image(tags, 'email_spam_tagcloud.png', size=(1000, 700))
+create_tag_image(tags, 'email_spam_tagcloud.png', size=(1000, 700), fontname='Neucha')
 
 
 notspam_input_file = open("notspam_output.txt", "r")
@@ -29,6 +29,6 @@ final_str = ""
 for line in input_data:
     final_str+=line+" "
 
-tags = make_tags(get_tag_counts(final_str), maxsize=120)
+tags = make_tags(get_tag_counts(final_str), maxsize=100)
 
-create_tag_image(tags, 'email_notspam_tagcloud.png', size=(900, 600))
+create_tag_image(tags, 'email_notspam_tagcloud.png', size=(900, 600),  fontname='Neucha')

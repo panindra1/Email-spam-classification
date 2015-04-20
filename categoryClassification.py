@@ -122,11 +122,9 @@ def calc_accuracy():
 
     correct_class = 0
     total_rows = 0
-<<<<<<< HEAD
+
     Matrix = [[0 for x in range(8)] for x in range(8)]
-=======
     confusion_matrix = [[0 for x in range(8)] for x in range(8)]
->>>>>>> 66ffa3a11ba2904f20d02b9d57658e124bf05d41
 
     with open(HomeDirectory+ "8category.testing.txt")as f:
         test_data = f.readlines()
@@ -184,13 +182,11 @@ def calc_accuracy():
           val_graphics += p_graphics
 
           high_class_values = [val_space, val_hardware, val_baseball, val_windows, val_politics, val_forsale, val_hockey, val_graphics]
-<<<<<<< HEAD
           classifed_class = give_class_val(high_class_values)
           if(class_val == classifed_class):
-=======
-          predicted_class = give_class_val(high_class_values)
+            predicted_class = give_class_val(high_class_values)
+
           if(class_val == predicted_class):
->>>>>>> 66ffa3a11ba2904f20d02b9d57658e124bf05d41
               correct_class += 1
           confusion_matrix[class_val][predicted_class]+=1
 
@@ -202,16 +198,13 @@ def calc_accuracy():
 
         #print(correct_class)
 
-<<<<<<< HEAD
-          Matrix[class_val][classifed_class] += 1
+        Matrix[class_val][classifed_class] += 1
 
         print(correct_class)
         print((correct_class * 1.0)/ total_rows)
         for line in Matrix:
             print(line)
-=======
         print("\nAccuracy = " + str((correct_class * 1.0)/ total_rows))
->>>>>>> 66ffa3a11ba2904f20d02b9d57658e124bf05d41
 
 def give_class_val(class_values):
     index = 0
@@ -303,6 +296,115 @@ def main():
         print(key[0] +" : " +str(key[1]))
         i += 1
         if(i == 20):
+            break
+
+def print_words_for_tag_cloud():
+    temp_space_dict = sorted(space_dict.items(), key=operator.itemgetter(1), reverse=True)
+    line_counter = 0
+    spam_output_file = open("space_output.txt", "w")
+    for tup in temp_space_dict:
+        if(line_counter < 300):
+            final_str = ""
+            for i in xrange(0, tup[1]):
+                final_str += tup[0] + " "
+            spam_output_file.write(final_str + "\n")
+            line_counter+=1
+        else :
+            break
+
+
+    temp_hardware_dict = sorted(hardware_dict.items(), key=operator.itemgetter(1), reverse=True)
+    line_counter = 0
+    notspam_output_file = open("hardware_output.txt", "w")
+    for tup in temp_hardware_dict:
+        if(line_counter < 300):
+            final_str = ""
+            for i in xrange(0, tup[1]):
+                final_str += tup[0] + " "
+            notspam_output_file.write(final_str + "\n")
+            line_counter+=1
+        else :
+            break
+
+
+    temp_baseball_dict = sorted(baseball_dict.items(), key=operator.itemgetter(1), reverse=True)
+    line_counter = 0
+    notspam_output_file = open("baseball_output.txt", "w")
+    for tup in temp_baseball_dict:
+        if(line_counter < 300):
+            final_str = ""
+            for i in xrange(0, tup[1]):
+                final_str += tup[0] + " "
+            notspam_output_file.write(final_str + "\n")
+            line_counter+=1
+        else :
+            break
+
+
+    temp_windows_dict = sorted(windows_dict.items(), key=operator.itemgetter(1), reverse=True)
+    line_counter = 0
+    notspam_output_file = open("windows_output.txt", "w")
+    for tup in temp_windows_dict:
+        if(line_counter < 300):
+            final_str = ""
+            for i in xrange(0, tup[1]):
+                final_str += tup[0] + " "
+            notspam_output_file.write(final_str + "\n")
+            line_counter+=1
+        else :
+            break
+
+
+    temp_politics_dict = sorted(politics_dict.items(), key=operator.itemgetter(1), reverse=True)
+    line_counter = 0
+    notspam_output_file = open("politics_output.txt", "w")
+    for tup in temp_politics_dict:
+        if(line_counter < 300):
+            final_str = ""
+            for i in xrange(0, tup[1]):
+                final_str += tup[0] + " "
+            notspam_output_file.write(final_str + "\n")
+            line_counter+=1
+        else :
+            break
+
+    temp_forsale_dict = sorted(forsale_dict.items(), key=operator.itemgetter(1), reverse=True)
+    line_counter = 0
+    notspam_output_file = open("forsale_output.txt", "w")
+    for tup in temp_forsale_dict:
+        if(line_counter < 300):
+            final_str = ""
+            for i in xrange(0, tup[1]):
+                final_str += tup[0] + " "
+            notspam_output_file.write(final_str + "\n")
+            line_counter+=1
+        else :
+            break
+
+    temp_hockey_dict = sorted(hockey_dict.items(), key=operator.itemgetter(1), reverse=True)
+    line_counter = 0
+    notspam_output_file = open("hockey_output.txt", "w")
+    for tup in temp_hockey_dict:
+        if(line_counter < 300):
+            final_str = ""
+            for i in xrange(0, tup[1]):
+                final_str += tup[0] + " "
+            notspam_output_file.write(final_str + "\n")
+            line_counter+=1
+        else :
+            break
+
+    temp_graphics_dict = sorted(graphics_dict.items(), key=operator.itemgetter(1), reverse=True)
+    line_counter = 0
+    notspam_output_file = open("graphics_output.txt", "w")
+    for tup in temp_graphics_dict:
+        if(line_counter < 300):
+            final_str = ""
+            for i in xrange(0, tup[1]):
+                final_str += tup[0] + " "
+            notspam_output_file.write(final_str + "\n")
+            line_counter+=1
+        else :
             break
 
 
@@ -426,3 +528,4 @@ if __name__ == "__main__":
     compute_odds_ratio(p_windows_dict, p_graphics_dict)
     compute_odds_ratio(p_hardware_dict, p_graphics_dict)
     compute_odds_ratio(p_hardware_dict, p_windows_dict)
+    print_words_for_tag_cloud()
